@@ -8,11 +8,31 @@
 <body>
     <h1>BOOK YOUR APPOINTMENT</h1>
     <form action='/booking' method ='POST' id='appointment'>
-        <input id='userName' name ='userName' placeholder="user name">
-        <input id='phoneNumber' name ='phoneNumber' placeholder="phone number">
-        <input id='email' name ='email' placeholder="email">
+        <input id='userName' name ='userName' placeholder="user name" required>
+        <input id='phoneNumber' name ='phoneNumber' placeholder="phone number" required>
+        <input id='email' name ='email' placeholder="email" required>
         <button type="submit">BOOK</button>
     </form>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', async () => {
+            try {
+                const response = await fetch('/booking'); 
+                const appointments = await response.json();
+
+                const appointmentsContainer = document.getElementById('appointments');
+                appointments.forEach(appointment => {
+                    const div = document.createElement('div');
+                    div.classList.add('appointment');
+                    div.innerHTML = `
+                        <p> ${appointment.username} - ${appointment.phonenumber}- ${appointment.email}`;
+                    appointmentsContainer.appendChild(div);
+                });
+            } catch (error) {
+                console.error('Failed to fetch appointments:', error);
+            }
+        });
+    </script>
     
 </body>
 </html>
